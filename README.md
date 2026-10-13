@@ -1,6 +1,6 @@
 # ResolveAI Lite
 
-A small, real AI **customer-support investigation agent** (backend only), built to learn how agent backends work.
+A small, real AI **customer-support investigation agent** (backend only)
 
 A fictional customer says *"I returned my headphones, but my refund has not arrived."* The agent:
 
