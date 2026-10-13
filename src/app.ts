@@ -7,7 +7,7 @@ import { errorHandler, notFoundHandler } from "./api/http.js";
 export function createApp() {
   const app = express();
   app.disable("x-powered-by");
-  app.use(cors()); // allow browsers on any website to call the API
+  app.use(cors()); // yo yo sir allow browsers on any website to call the API
   app.use(express.json({ limit: "10kb" })); // request-size limit
 
   app.get("/health", (_req, res) => {
