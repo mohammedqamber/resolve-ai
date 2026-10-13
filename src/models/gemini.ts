@@ -6,6 +6,10 @@ import { ModelError, type ModelReply, type ToolDeclaration, type Turn } from "./
 // To support another provider later, write a file with the same `generate` function.
 
 const REQUEST_TIMEOUT_MS = 60_000; // Gemini latency is spiky (5s to 30s+ seen), so be generous
+// Gemini often answers 503 "model overloaded" (or 500) for a few seconds at a time. Those are worth retrying.
+// Timeouts are NOT retried: each one already cost up to 60s.
+const RETRY_DELAYS_MS = [1_000, 3_000];
+const RETRYABLE_STATUSES = new Set([500, 502, 503, 504]);
 
 let client: GoogleGenAI | undefined;
 
@@ -69,9 +73,8 @@ export async function generate(args: {
 }): Promise<ModelReply> {
   const ai = getClient();
 
-  let response;
-  try {
-    response = await ai.models.generateContent({
+  const request = () =>
+    ai.models.generateContent({
       model: config.geminiModel,
       contents: toContents(args.turns),
       config: {
@@ -82,8 +85,18 @@ export async function generate(args: {
         automaticFunctionCalling: { disable: true },
       },
     });
-  } catch (err) {
-    throw toModelError(err);
+
+  let response;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      response = await request();
+      break;
+    } catch (err) {
+      const delay = RETRY_DELAYS_MS[attempt];
+      if (delay === undefined || !isRetryable(err)) throw toModelError(err);
+      console.warn(`Gemini call failed (${describe(err)}), retrying in ${delay}ms`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
 
   const calls = response.functionCalls;
@@ -96,8 +109,21 @@ export async function generate(args: {
   }
 
   const text = response.text?.trim();
-  if (!text) throw new ModelError("empty", "The model returned an empty answer.");
+  if (!text) {
+    const finishReason = response.candidates?.[0]?.finishReason ?? response.promptFeedback?.blockReason ?? "unknown";
+    throw new ModelError("empty", `The model returned an empty answer (finish reason: ${finishReason}).`);
+  }
   return { kind: "text", text };
+}
+
+/** Overloaded / server errors, and network failures that never reached Gemini ("fetch failed", resets). */
+function isRetryable(err: unknown): boolean {
+  if (err instanceof ApiError) return RETRYABLE_STATUSES.has(err.status);
+  return err instanceof TypeError && /fetch failed|network|ECONNRESET|socket/i.test(`${err.message} ${String(err.cause)}`);
+}
+
+function describe(err: unknown): string {
+  return err instanceof ApiError ? `HTTP ${err.status}` : err instanceof Error ? err.message : String(err);
 }
 
 /** Turn SDK/network errors into a few explicit kinds. Messages never contain the API key. */

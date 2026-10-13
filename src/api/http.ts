@@ -71,11 +71,12 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
           "The AI service is not available right now.",
         );
       default:
+        console.error(`Gemini error (${err.kind}):`, err.message);
         return sendError(
           res,
           502,
           "AI_ERROR",
-          `The AI service could not answer. Please try again. ${err.message}`,
+          `The AI service could not answer. Please try again.`,
         );
     }
   }
