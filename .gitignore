@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+# Runtime copies of the demo data (created from data/seed.json on first run)
+data/*.runtime.json
+data/*.tmp

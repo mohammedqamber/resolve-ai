@@ -1,0 +1,31 @@
+{
+  "name": "resolve-ai-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ResolveAI Lite - a small AI customer-support investigation agent (learning project)",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "try:tools": "tsx src/try-tools.ts",
+    "try:agent": "tsx src/try-agent.ts",
+    "check:live": "tsx src/check-live.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^2.28.0",
+    "express": "^5.3.0",
+    "zod": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.7"
+  }
+}

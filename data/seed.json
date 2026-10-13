@@ -1,0 +1,50 @@
+{
+  "customers": [
+    { "customerId": "cus_alice", "name": "Alice Demo", "email": "alice@example.test" },
+    { "customerId": "cus_ben", "name": "Ben Demo", "email": "ben@example.test" },
+    { "customerId": "cus_chloe", "name": "Chloe Demo", "email": "chloe@example.test" }
+  ],
+  "orders": [
+    { "orderId": "ORD-1001", "customerId": "cus_alice", "product": "Wireless Headphones", "purchaseDate": "2026-09-01", "deliveryStatus": "delivered", "returnStatus": "returned" },
+    { "orderId": "ORD-1002", "customerId": "cus_alice", "product": "Mechanical Keyboard", "purchaseDate": "2026-08-20", "deliveryStatus": "delivered", "returnStatus": "returned" },
+    { "orderId": "ORD-1003", "customerId": "cus_alice", "product": "Phone Case", "purchaseDate": "2026-09-25", "deliveryStatus": "delivered", "returnStatus": "none" },
+    { "orderId": "ORD-2001", "customerId": "cus_ben", "product": "Smart Watch", "purchaseDate": "2026-09-03", "deliveryStatus": "delivered", "returnStatus": "returned" },
+    { "orderId": "ORD-2002", "customerId": "cus_ben", "product": "USB-C Hub", "purchaseDate": "2026-09-10", "deliveryStatus": "delivered", "returnStatus": "none" },
+    { "orderId": "ORD-2003", "customerId": "cus_ben", "product": "HD Webcam", "purchaseDate": "2026-09-30", "deliveryStatus": "shipped", "returnStatus": "none" },
+    { "orderId": "ORD-3001", "customerId": "cus_chloe", "product": "Travel Backpack", "purchaseDate": "2026-09-15", "deliveryStatus": "delivered", "returnStatus": "none" },
+    { "orderId": "ORD-3002", "customerId": "cus_chloe", "product": "Yoga Mat", "purchaseDate": "2026-10-05", "deliveryStatus": "shipped", "returnStatus": "none" },
+    { "orderId": "ORD-3003", "customerId": "cus_chloe", "product": "E-Reader", "purchaseDate": "2026-10-08", "deliveryStatus": "not_shipped", "returnStatus": "none" }
+  ],
+  "refunds": [
+    { "refundId": "REF-5001", "orderId": "ORD-1001", "amount": 129.99, "refundStatus": "initiated", "initiatedAt": "2026-09-12T09:30:00Z", "relatedTransactionId": "TXN-9001" },
+    { "refundId": "REF-5002", "orderId": "ORD-1002", "amount": 79.0, "refundStatus": "completed", "initiatedAt": "2026-08-28T14:00:00Z", "relatedTransactionId": "TXN-9002" },
+    { "refundId": "REF-5003", "orderId": "ORD-2001", "amount": 199.0, "refundStatus": "pending", "initiatedAt": "2026-09-20T11:15:00Z", "relatedTransactionId": "TXN-9003" }
+  ],
+  "transactions": [
+    { "transactionId": "TXN-8001", "orderId": "ORD-1001", "type": "charge", "amount": 129.99, "status": "success", "failureReason": null, "createdAt": "2026-09-01T10:00:00Z" },
+    { "transactionId": "TXN-8002", "orderId": "ORD-1002", "type": "charge", "amount": 79.0, "status": "success", "failureReason": null, "createdAt": "2026-08-20T08:45:00Z" },
+    { "transactionId": "TXN-8003", "orderId": "ORD-1003", "type": "charge", "amount": 14.5, "status": "success", "failureReason": null, "createdAt": "2026-09-25T17:20:00Z" },
+    { "transactionId": "TXN-8004", "orderId": "ORD-2001", "type": "charge", "amount": 199.0, "status": "success", "failureReason": null, "createdAt": "2026-09-03T12:00:00Z" },
+    { "transactionId": "TXN-8005", "orderId": "ORD-2002", "type": "charge", "amount": 39.99, "status": "success", "failureReason": null, "createdAt": "2026-09-10T10:15:02Z" },
+    { "transactionId": "TXN-8006", "orderId": "ORD-2002", "type": "charge", "amount": 39.99, "status": "success", "failureReason": null, "createdAt": "2026-09-10T10:15:41Z" },
+    { "transactionId": "TXN-8007", "orderId": "ORD-2003", "type": "charge", "amount": 59.0, "status": "success", "failureReason": null, "createdAt": "2026-09-30T09:10:00Z" },
+    { "transactionId": "TXN-8008", "orderId": "ORD-3001", "type": "charge", "amount": 64.0, "status": "success", "failureReason": null, "createdAt": "2026-09-15T19:05:00Z" },
+    { "transactionId": "TXN-8009", "orderId": "ORD-3002", "type": "charge", "amount": 22.0, "status": "success", "failureReason": null, "createdAt": "2026-10-05T13:40:00Z" },
+    { "transactionId": "TXN-8010", "orderId": "ORD-3003", "type": "charge", "amount": 118.75, "status": "failed", "failureReason": "Card declined: insufficient funds", "createdAt": "2026-10-08T21:30:00Z" },
+    { "transactionId": "TXN-9001", "orderId": "ORD-1001", "type": "refund_transfer", "amount": 129.99, "status": "failed", "failureReason": "Bank rejected the transfer: destination account closed", "createdAt": "2026-09-12T09:31:00Z" },
+    { "transactionId": "TXN-9002", "orderId": "ORD-1002", "type": "refund_transfer", "amount": 79.0, "status": "success", "failureReason": null, "createdAt": "2026-08-28T14:02:00Z" },
+    { "transactionId": "TXN-9003", "orderId": "ORD-2001", "type": "refund_transfer", "amount": 199.0, "status": "pending", "failureReason": null, "createdAt": "2026-09-20T11:16:00Z" }
+  ],
+  "tickets": [
+    {
+      "ticketId": "TCK-7001",
+      "customerId": "cus_chloe",
+      "orderId": "ORD-3003",
+      "category": "payment_issue",
+      "summary": "Card was declined when placing the order; customer asks how to retry.",
+      "evidence": ["TXN-8010 status failed: Card declined: insufficient funds"],
+      "status": "open",
+      "createdAt": "2026-10-09T08:00:00Z"
+    }
+  ]
+}
